@@ -1,0 +1,38 @@
+int solution(string numbers) {
+    string s= numbers;
+    sort(s.begin(), s.end(),greater<char>());
+    int max = stoi(s);
+    bool *check = new bool[max+1];
+    
+    fill_n(check, max+1, false);
+    
+    check[1]=true;
+    check[0]=true;
+    int answer = 0;
+
+    for(int i=2; i<max+1; i++)
+    {
+        if(check[i] == false)
+        {
+            for(long j= i*i; j<max+1; j+=i)
+            {
+                check[j] = true;
+            }
+        }
+    }
+    
+    sort(numbers.begin(), numbers.end()), greater<char>();
+    set<int> ans;
+    
+    do{
+        for(int i=1; i<=numbers.size(); i++) {
+            string tmp = numbers.substr(0, i);
+            if(check[stoi(tmp)] == false) {
+                ans.insert(stoi(tmp));
+            }
+        }
+    } while(next_permutation(numbers.begin(), numbers.end()));
+    
+    return ans.size();
+}
+
