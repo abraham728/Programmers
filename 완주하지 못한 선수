@@ -1,0 +1,26 @@
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
+string solution(vector<string> participant, vector<string> completion) {
+    string answer = "";
+    unordered_map<string, int> True_val;
+    for(string s : participant)
+    {
+        ++True_val[s];
+    }
+    for(string s: completion)
+    {
+        --True_val[s];
+    }
+    for(auto pair : True_val)
+    {
+        if(pair.second >0) //지워지지 않은 녀석
+        {
+            return pair.first;
+        }
+    }
+    return answer;
+}
