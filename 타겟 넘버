@@ -1,0 +1,29 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int answer = 0;
+
+
+void DFS(vector<int>& numbers, int target, int sum, int depth )
+{
+    if(depth == numbers.size())
+    {
+        if(target == sum)
+        {
+            answer ++;
+        }
+          return;//같지 않은 경우에도 return은 해야한다.
+    }
+    
+    DFS(numbers, target, sum + numbers[depth], depth+1);
+    DFS(numbers, target, sum - numbers[depth], depth+1);
+}
+
+int solution(vector<int> numbers, int target) {
+    
+    DFS(numbers, target, 0, 0);
+    
+    return answer;
+}
