@@ -1,0 +1,21 @@
+using namespace std;
+
+long long solution(int price, int money, int count)
+{
+    long long answer = 0;
+    
+    for(int i=1; i<=count; i++) // 3 6 9 12 -- 30
+    {
+        answer += price *i;
+    }
+    answer -= money;
+    if( answer > 0)
+    {
+        answer = answer; 
+    }
+    else
+    {
+        answer =0;
+    }
+    return answer;
+}
