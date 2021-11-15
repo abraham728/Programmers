@@ -1,0 +1,33 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(vector<int> lottos, vector<int> win_nums) {
+    vector<int> answer;
+    int Win[7] = {6,6,5,4,3,2,1};
+    int cntZero=0;
+    int cntMin=0;
+    for(int i=0; i< 6; i++)
+    {
+     if(lottos[i] == 0) //알 수 없는 번호 
+     {
+         cntZero++;
+     }
+    else
+    {
+        for(int j=0; j<6; j++)
+        {
+            if(lottos[i] == win_nums[j])
+            {
+            cntMin++;
+            }
+        }
+    }
+    }
+    
+     
+    answer.push_back(Win[cntMin+cntZero]);
+    answer.push_back(Win[cntMin]); 
+    return answer;
+}
