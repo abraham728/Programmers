@@ -1,0 +1,24 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int solution(vector<vector<int>> sizes) {
+    int maxWidth=0,maxHeight=0;
+    for(int i=0; i<sizes.size(); i++)
+    {
+      sort(sizes[i].begin(), sizes[i].end());
+      if(sizes[i][0] >= maxWidth)//최대가로길이보다 크면
+      {
+          maxWidth = sizes[i][0];
+      }
+      if(sizes[i][1] >= maxHeight)//최대세로길이보다 크면
+      {
+          maxHeight = sizes[i][1];
+      }
+    }
+    int answer = maxWidth * maxHeight;
+    return answer;
+}
