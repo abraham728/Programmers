@@ -1,0 +1,83 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream> 
+
+using namespace std;
+
+
+
+char getGrade(int tmp )
+{
+    char answer; 
+    if(tmp>= 90) answer= 'A';
+    else if(tmp <90 && tmp >= 80) answer ='B';
+    else if(tmp <80 && tmp >= 70) answer ='C';
+    else if(tmp <70 && tmp >= 50) answer ='D';
+    else answer ='F';
+        
+    return answer; 
+}
+
+string solution(vector<vector<int>> scores) {
+        string answer = "";
+    int sum=0;// 점수합
+    double avg;// 평균 
+    int high=0;//최고
+    int low=100; //최저
+    int self; //본인점수
+    int cnt=0;
+    int limit = scores.size();
+    
+    int low_cnt=0;
+    int high_cnt=0;
+    
+    
+    for(int i=0; i<limit; i++)
+    {
+        for(int j=0; j< limit; j++)
+        {
+      
+            if(scores[j][i] >= high)
+            {
+               high = scores[j][i];  
+            }
+            if(scores[j][i] <= low)
+            {
+                low = scores[j][i];
+            }
+            if(j == i)
+            {
+                self = scores[j][j];
+            }
+            sum += scores[j][i];
+        }
+        for(int k=0; k<limit; k++)
+        {
+         if(scores[k][i] == low)
+         {
+             low_cnt++;       
+         }
+        if(scores[k][i] == high)
+        {
+             high_cnt++;
+        }
+        }   
+        
+        if((self == high && high_cnt<2) || (self == low && low_cnt<2)) //최고점 혹은 최저점이 본인이 부여한 점수이며 해당 점수가 중복되지 않은경우
+        {
+            sum -= self;
+            avg = (double)sum /(double)(limit-1);
+        }
+        else
+        {
+            avg= (double)sum / (double)limit;
+        }
+        char tmp = getGrade(avg);
+        answer.push_back(tmp);
+        
+        high=0; low=100; sum=0;//변수 사용후 초기화
+        high_cnt =0; low_cnt=0;
+    }
+    return answer;
+}
