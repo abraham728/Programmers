@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+#include <algorithm> 
+
+using namespace std;
+vector<char> collection = {'A', 'E', 'I', 'O', 'U'}; //모음
+vector<string> dic; //단어모음
+
+void DFS(string word, int len)
+{
+    if (len == word.length()) 
+    { 
+        dic.push_back(word); 
+        return;
+    } 
+    for (int i=0; i<collection.size(); i++) 
+    { 
+        DFS(word + collection[i], len);
+    }
+}
+
+int solution(string word) {
+    for(int len =1; len <= 5; len ++)
+    {
+        string word = ""; 
+        DFS(word, len);
+    }
+    sort(dic.begin(), dic.end());
+    
+    for(int i=0; i< dic.size(); i++)
+    {
+    if(word == dic[i])//찾았을 경우 
+        {
+        return i+1;
+         }
+    }
+   
+}
