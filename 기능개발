@@ -1,0 +1,43 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(vector<int> progresses, vector<int> speeds) {
+    vector<int> answer;
+    int last = progresses.size(); //3개 원소면 3리턴
+    int end = last;
+    int cnt =0; 
+    int start =0;
+    while(end > 0)
+    {
+    for(int i=0; i<last; i++)
+        {
+            if(progresses[i] <=100)
+            {
+                 progresses[i] += speeds[i];
+            }   
+            if( i == (last -1))
+            {
+                for(int j=start; j< last; j++) //이전것까지 확인
+                {
+                    if(progresses[j] >= 100) //다 되었으면
+                    {
+                        cnt++;
+                    }
+                    else
+                    {
+                        start = j; break;
+                    }//다음것이 초과하지 못하였으면 해당것만 넣고 끝
+                }
+                if(cnt >0)
+                {
+                answer.push_back(cnt);
+                end -=cnt;
+                cnt=0;
+                }
+            }
+        }
+    }
+    return answer;
+}
