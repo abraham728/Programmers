@@ -1,0 +1,67 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+
+using namespace std;
+vector<bool> wordCheck(51,false);
+vector<string> wordsBook;
+int answer =100000;
+string targetWord;
+
+bool compare(string begin, string word)//비교 후 움직일 수 있으면 true, 아니면 false
+{   
+    /////cout <<"begin : "<<begin<<"비교할 word : "<<word <<'\n';
+    bool check = false;
+    int limit = begin.size();
+    int correct=0;
+    for(int i=0; i<limit; i++)
+    {
+        if(begin[i] == word[i])correct++;
+    }
+    if(correct == (limit-1)) check = true;
+       
+     return check;
+}
+    
+
+    
+void DFS(string begin,int cnt)
+{
+    if(begin == targetWord)
+    {
+        answer = min(answer, cnt);
+        return;
+    }
+    if(cnt > 100) return;
+
+    for(int i =0; i<wordsBook.size(); i++)
+    {
+        if(!wordCheck[i] && compare(begin, wordsBook[i]))
+        {
+        wordCheck[i]=true; 
+        DFS(wordsBook[i], cnt+1 );
+        wordCheck[i] = false;    
+        }
+    }
+}
+
+int solution(string begin, string target, vector<string> words) {
+    targetWord = target;
+    bool check = false;
+    wordsBook= words;
+    for(int i=0; i<words.size(); i++)
+    {
+        if(target == words[i]) 
+        {
+            check=true;
+            break;
+        }
+    }
+    if(!check) {answer=0;return answer;}  
+   
+    DFS(begin, 0);
+    
+    return answer;
+}
