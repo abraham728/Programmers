@@ -1,0 +1,84 @@
+#include <string>
+#include <vector>
+#include <algorithm> 
+
+using namespace std;
+struct boxer
+{
+    int weight=0; 
+    double rateW=0.00;
+    int numW=0;//본인보다 무거운 애들 이긴 횟수
+    int num=0;
+};
+
+bool cmp(const boxer &B1, const boxer &B2)
+{
+    if(B1.rateW > B2.rateW)
+    {
+        return true;
+    }
+    if(B1.rateW == B2.rateW)
+     {
+        if(B1.numW > B2.numW)
+        {
+            return true;
+        }    
+        
+        if(B1.numW == B2.numW)
+        {
+            if(B1.weight > B2.weight)
+            {  
+                 return true;
+            }
+             
+            if(B1.weight == B2.weight)
+            {  
+                    if(B1.num < B2.num)
+                {
+                     return true;
+                }
+            }    
+         }
+     }
+    return false;
+}
+
+
+vector<int> solution(vector<int> weights, vector<string> head2head) {
+    vector<boxer> arr;
+    for(int i=0; i<weights.size(); i++)
+    {
+        boxer newB;
+        newB.weight = weights[i];//본인 무게 삽입
+        newB.num = i+1;
+        
+        int numFight= 0;//총전적 횟수
+        int score =0; //이긴 횟수
+        int numHit =0; //나보다 무거운 애들 이긴 횟수
+        for(int j=0; j<head2head.size(); j++)
+        {
+            if(head2head[i][j] == 'W')
+            {
+                numFight++;
+                score++;
+                if(weights[i] < weights[j])//상대가 나보다 무거우면 
+                {
+                    numHit++;
+                }
+            }
+            else if(head2head[i][j] == 'L') numFight++;
+        }
+        if (numFight == 0) {newB.rateW = 0.00;}
+        else {newB.rateW = (double)score / (double)numFight;}//승률 삽입   
+        newB.numW=numHit;
+        arr.push_back(newB);
+    }
+    sort(arr.begin(), arr.end(), cmp);    
+    vector<int> answer;
+    for(int i=0; i<weights.size(); i++)
+    {
+        answer.push_back(arr[i].num);
+    }
+    
+    return answer;
+}
