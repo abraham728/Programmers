@@ -1,0 +1,58 @@
+#include <vector>
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+bool prime[3001];
+bool check[51];
+
+int cnt=0;
+
+void Prime(int tmp)
+{
+    for(int i=2; i<sqrt(tmp)+1; i++)
+    {
+        if(tmp%i ==0)
+        {
+            prime[tmp]=false;
+            return;
+        }
+    }
+    prime[tmp]=true;
+}
+
+void dfs(int index,int sum,  int cntAdd, vector<int>& nums)
+{
+    if(cntAdd == 3)
+    {
+        if(prime[sum]) 
+        {
+            cnt++;return;
+        }
+        Prime(sum);
+        if(prime[sum]) 
+        {
+            cnt++;
+        }
+        return;
+    }
+    
+    for(int i= index; i<nums.size(); i++)
+    {
+        if(!check[i])
+        {
+            check[i] = true; 
+            dfs(i,sum+nums[i],cntAdd+1, nums);
+            check[i] = false;
+        }
+    }
+}
+
+int solution(vector<int> nums) {
+    int answer = -1;
+
+    prime[1]= false; prime[2]=true;
+    dfs(0,0, 0, nums);
+    answer = cnt;
+    return answer;
+}
