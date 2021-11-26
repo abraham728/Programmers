@@ -1,0 +1,44 @@
+#include <string>
+#include <vector>
+#include <utility>
+#include <queue> 
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+int solution(vector<int> priorities, int location) {
+    int answer = 1;
+    queue<pair<int,int>> arr; //first : priority, second : index
+    priority_queue<int> priQue;
+    
+    for(int i=0; i<priorities.size(); i++)
+    {
+        pair<int,int> tmp =make_pair(priorities[i], i);
+        arr.push(tmp);
+        priQue.push(priorities[i]); //자동으로 큰순으로 정렬됨
+    }
+    
+    while(!arr.empty())
+    {   
+        pair<int,int> tmp = arr.front();
+	    arr.pop();
+        if(tmp.first == priQue.top())
+        {
+            if(tmp.second == location)
+            {
+                break;
+            }
+            else
+            {
+                answer++;
+                priQue.pop();
+            }
+        }
+        else
+        {
+            arr.push(tmp);
+        }
+    }
+    return answer;
+}
