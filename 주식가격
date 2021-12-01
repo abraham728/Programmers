@@ -1,0 +1,38 @@
+#include <string>
+#include <vector>
+#include <stack>
+using namespace std;
+
+vector<int> solution(vector<int> prices) {
+
+    
+    int size=prices.size();
+    stack<int> can; //stack에는 해당prices의 값이 들어가는 시간이 쌓인다.
+    vector<int> arr(size); //몇초 지났는지 넣을 vector
+    
+    for(int i=0; i<prices.size(); i++)
+    {
+        while(!can.empty() && prices[can.top()] > prices[i]) // stack이 비어있지 않고 && 스택 맨위의 인덱스에 해당하는 prices의 가격 이 곧 들어올 prices보다 큰 경우 = 가격이 하락한 경우
+        {
+            arr[can.top()] = i-can.top();
+            can.pop();
+        }
+        can.push(i);// 하락한 경우가 아닐 경우, stack에 prices의 INDEX값 삽입
+    }
+    
+    while(!can.empty())
+    {
+        arr[can.top()] =size - can.top() -1;
+        can.pop();
+    }
+    return arr;
+}
+
+int main()
+{
+    vector<int> arr ={1,2,3,2,3};
+    solution(arr);
+    
+    return 0;
+    
+}
