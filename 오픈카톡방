@@ -1,0 +1,52 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <sstream>
+using namespace std;
+
+vector<string> split(string sentence, char Separator)
+{
+    vector<string> answer;
+    stringstream ss(sentence);
+    string tmp;
+ 
+    while (getline(ss, tmp, Separator)) {
+        answer.push_back(tmp);
+    }
+    return answer;
+}
+
+
+vector<string> solution(vector<string> record) {
+    vector<string> answer;
+    
+    vector<string>  alert; //들어왔습니다, 나갔습니다.
+    map<string,string> uid_name;
+    
+    for(int i=0; i<record.size(); i++)
+    {
+        vector<string> tmp = split(record[i], ' ');
+        if(tmp[0] == "Enter")
+        {
+            alert.push_back("님이 들어왔습니다.");
+            uid_name[tmp[1]] =tmp[2];
+            answer.push_back(tmp[1]);
+        }
+        else if(tmp[0] == "Leave")
+        {
+            alert.push_back("님이 나갔습니다.");
+            answer.push_back(tmp[1]);
+        }
+        else // 이름 변경한 경우
+        {
+            uid_name[tmp[1]]=tmp[2];
+        }
+    }
+    
+    for(int i=0; i<answer.size(); i++)
+    {
+        answer[i] = uid_name[answer[i]] + alert[i];
+    }
+    
+    return answer;
+}
