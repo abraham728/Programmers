@@ -1,0 +1,47 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+
+
+using namespace std;
+
+int solution(string s) {
+    int answer = s.size();
+    int sSize = s.size();
+    int limit = s.size()/2;
+    
+    for(int div =1; div<= limit; div++)
+    {
+        string newS=""; //사이즈 측정할 문자열
+        int cnt=1;
+        string comS=s.substr(0,div); // 비교할 문자열
+        for(int i=div; i<=sSize; i+=div)
+        {
+            if( comS == s.substr(i,div)) //중복되는 문자열이 있는 경우
+            {
+                cnt++;
+            }
+            else //중복되지 않는 경우 ( 끝부분에 없는 경우에서 걸릴 수 있음)
+            {
+                if(cnt == 1)
+                {
+                    newS += comS;
+                }
+                else
+                {
+                    newS += to_string(cnt)+comS;
+                }
+                    comS = s.substr(i,div); cnt=1;
+            }
+            
+        }
+        
+        if(sSize%div != 0) // 나누는 숫자의 단위가 숫자의 길이로 나누어떨어지지 않을 경우
+        {
+            newS += s.substr((sSize/div)*div);
+        }
+        answer = min(answer, (int)newS.size());
+    }
+    return answer;
+}
