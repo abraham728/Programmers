@@ -1,0 +1,49 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+// 전역 변수를 정의할 경우 함수 내에 초기화 코드를 꼭 작성해주세요.
+int solution(int n, vector<string> data) {
+    int answer = 0;  
+    string kakao ="ACFJMNRT";
+
+    do{
+        bool flag  = true;
+        for(int i=0; i<n; i++)//제한사항 갯수
+        {
+            char first = data[i][0]; char second = data[i][2];
+            char compare = data[i][3]; int amount = data[i][4]-'0';
+            int tmp  = kakao.find(second)-kakao.find(first);
+            int distance = abs(tmp) - 1;
+        
+            
+            if(compare == '=')//붙어있는 경우 
+            {
+                if(distance == amount)flag = true;
+                 else flag = false;
+            }
+            else if(compare == '<')
+            {
+                 if(distance < amount)flag = true;
+                 else flag = false;
+            }
+            else if(compare == '>')
+            {
+                if(distance > amount)flag = true;
+                else flag = false;
+            }
+            if(flag)continue;
+            else 
+            {
+                flag = false;
+                break;
+            }
+        }
+        if(flag)answer++;
+    }while(next_permutation(kakao.begin(), kakao.end()));
+    
+    return answer;
+}
