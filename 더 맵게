@@ -1,0 +1,31 @@
+#include <string>
+#include <vector>
+#include <queue> 
+#include <iostream>
+
+using namespace std;
+
+int solution(vector<int> scoville, int K) {
+    int answer = -1;
+    priority_queue<int, vector<int>, greater<int>> pq;    
+    
+    for(int i=0; i<scoville.size(); i++)
+    {
+        pq.push(scoville[i]);
+    }
+    
+    int cnt =0;
+    while(!pq.empty())//비어있거나 
+    {
+        if(pq.top() > K ||pq.size() <2)break;
+        cnt ++;
+        int lowest = pq.top();
+        pq.pop();
+        lowest = lowest + (pq.top()*2);
+        pq.pop();
+        pq.push(lowest);
+    }
+    if(cnt > 0)answer = cnt; 
+    if(pq.top() <K)answer=-1;
+    return answer;
+}
