@@ -25,7 +25,10 @@ int solution(vector<int> scoville, int K) {
         pq.pop();
         pq.push(lowest);
     }
-    if(cnt > 0)answer = cnt; 
-    if(pq.top() <K)answer=-1;
-    return answer;
+    if(pq.top() < K)return answer;
+    else 
+    {
+        answer = cnt; 
+        return answer;
+    }
 }
