@@ -1,0 +1,58 @@
+#include <vector>
+#include <iostream>
+#include <algorithm> 
+#include <cstring>
+
+using namespace std;
+
+int arr[101][101];
+int UpDownLeftRight [4][2] ={{1,0},{-1,0},{0,1},{0,-1} };
+vector<vector<int>> pic;
+int M,N;
+
+int dfs(int x,int y, int cnt )//x는 행 Y는 열
+{
+    
+    arr[x][y]=true;
+    
+    for(int i=0; i<4;i++)
+    {    
+        int nextX = x + UpDownLeftRight[i][0];
+        int nextY = y + UpDownLeftRight[i][1];
+        
+        if(nextX<0||nextX>=M|nextY<0||nextY>=N) continue;
+        
+        if(pic[x][y]==pic[nextX][nextY] && arr[nextX][nextY]==false)
+        {
+            cnt = dfs(nextX, nextY, cnt+1);            
+        }
+    }
+    return cnt;
+}
+
+// 전역 변수를 정의할 경우 함수 내에 초기화 코드를 꼭 작성해주세요.
+vector<int> solution(int m, int n, vector<vector<int>> picture) {
+    int number_of_area = 0;
+    int max_size_of_one_area = 0;
+    pic = picture;
+    M=m;N=n;
+    
+    memset(arr,0,sizeof(arr));
+    
+    for(int i=0; i<m; i++)
+    {
+        for(int j=0; j<n; j++)
+        {
+            if(!arr[i][j] && picture[i][j] !=0)
+            {
+                number_of_area++;
+                max_size_of_one_area = max(max_size_of_one_area,dfs(i,j,1));
+            }
+        }
+    }
+        
+    vector<int> answer(2);
+    answer[0] = number_of_area;
+    answer[1] = max_size_of_one_area;
+    return answer;
+}
