@@ -1,0 +1,50 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <string.h>
+#include <iostream>
+
+
+using namespace std;
+
+int solution(int n, vector<int> lost, vector<int> reserve) {
+    int answer=0;
+    
+    bool lostArr[31]={false};
+    bool reservArr[31]={false};
+   
+    for(auto i : lost)
+    {
+        lostArr[i]=true;
+    }
+        for(auto i : reserve)
+    {
+        reservArr[i]=true;
+        if(lostArr[i])
+        {
+            lostArr[i]=false;
+            reservArr[i]=false;
+        }
+    }
+    
+    for(int i=1;i<n+1; i++)
+    {
+        if(lostArr[i])//해당하는 학생이 가져오지 않았으면 
+        {
+            if(reservArr[i-1])
+            {
+                lostArr[i]=false;
+                reservArr[i-1]=false;
+                answer++;
+            }
+            else if(reservArr[i+1])
+            {
+                lostArr[i]=false;
+                reservArr[i+1]=false;
+                answer++;
+            }
+        }
+        else answer++;
+    }
+    return answer;
+}
