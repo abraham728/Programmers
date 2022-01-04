@@ -1,0 +1,48 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+#include <map>
+
+using namespace std;
+
+bool cmp (const pair<int,double> &a, const pair<int,double> &b)
+{
+    if(a.second==b.second) 
+    {return a.first<b.first;}
+    else 
+    {return a.second>b.second;}
+}
+
+vector<int> solution(int N, vector<int> stages) {
+    vector<int> answer;
+    vector<pair<int, double>> progress2; //인덱스, 실패율
+    sort(stages.begin(), stages.end());
+    map<int, int> stagesClear;    //인덱스, 깬 사람수
+    int clearPeople = stages.size(); //깨지 못한 사람들 뺄 예정
+    for(int i=0; i<stages.size(); i++)
+    {
+        stagesClear[stages[i]]++;
+    }
+    
+    for(int i=1; i<=N; i++)
+    {
+        if(clearPeople == 0 || stagesClear[i] == 0)//0인경우
+        {
+          progress2.push_back({i,0});
+        }
+        else
+        {
+              progress2.push_back({i,(double)stagesClear[i] / clearPeople});
+        }
+        clearPeople -=stagesClear[i];
+    }
+    
+    sort(progress2.begin(), progress2.end(), cmp);
+    
+    for(int i=0; i<progress2.size(); i++)
+    {
+        answer.push_back(progress2[i].first);
+    }
+    return answer;
+}
