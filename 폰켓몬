@@ -1,0 +1,25 @@
+#include <vector>
+#include <set>
+#include <algorithm>
+using namespace std;
+//순열을 사용하며, 다른 수의 갯수가 N/2이면 종료, 아니면 계속 진행
+
+
+int solution(vector<int> nums)
+{
+    int answer = 0;
+    int N = nums.size();
+    set<int> s; 
+    for(auto number : nums)
+    {
+        s.insert(number);
+    }
+    
+    if(s.size() >= N/2)
+    {
+        answer = N/2;
+    }
+    else answer = s.size();
+    
+    return answer;
+}
