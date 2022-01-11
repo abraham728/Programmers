@@ -1,0 +1,62 @@
+#include <string>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+bool check(string littleP)
+{
+    stack<char> st;
+    for(int i=0; i<littleP.size(); i++)
+    {
+        if(littleP[i] == '(') st.push('(');
+        else //닫는 괄호일때 
+        {
+            if(st.empty())//비어있는데 닫는 괄호 넣으려고 할때 
+            {
+                return false;
+            }
+            else
+            {
+                if(st.top()=='(')st.pop();
+            }
+        }
+    }
+    if(st.empty())return true;
+    else return false;
+}
+
+string solution(string p) {
+    string answer = "";
+    string u,v;
+    int cnt=0;
+    if(p=="")return answer;
+    
+    for(int i=0; i<p.size(); i++)
+    {
+        if(p[i] == '(' ) cnt++;
+        else cnt--;
+        
+        if(cnt==0)//균형잡힌 괄호 문자열일때
+        {
+            u=p.substr(0,i+1);
+            v=p.substr(i+1);
+            break;
+        }
+    }
+    
+    if(check(u))//u가 올바른 괄호 문자열인 경우
+    {
+        return u+solution(v);
+    }
+    
+    string tmp ="("+solution(v)+")";
+    u = u.substr(1,u.length()-2);
+    for(int i=0; i<u.size(); i++)
+    {
+        if(u[i] == '(')tmp+=')';
+        else tmp+='(';
+    }
+    answer = tmp;
+    return answer;
+}
