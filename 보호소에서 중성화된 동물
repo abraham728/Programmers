@@ -1,0 +1,8 @@
+-- 코드를 입력하세요
+SELECT A.ANIMAL_ID, A.ANIMAL_TYPE, A.NAME
+FROM ANIMAL_INS A, ANIMAL_OUTS B
+WHERE 1=1 
+AND A.ANIMAL_ID = B.ANIMAL_ID
+AND A.SEX_UPON_INTAKE NOT IN ('Spayed Female', 'Neutered Male') --중성화안된아이들
+AND B.SEX_UPON_OUTCOME IN ('Spayed Female', 'Neutered Male') -- 중성화완료
+ORDER BY 1 ASC;
