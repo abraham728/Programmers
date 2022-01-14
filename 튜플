@@ -1,0 +1,50 @@
+#include <string>
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+bool cmp(pair<int, int> a, pair<int, int> b)
+{
+    return a.second >b.second;
+}
+
+vector<int> solution(string s) {
+    vector<int> answer;
+    map<int, int> mp; // key : 숫자, value : 호출횟수
+    string tmp="";
+    for(int i=0; i<s.length(); i++)
+    {
+        
+        if(s[i] == '{' || s[i] == '}' || s[i] == ',')
+        {
+            if(tmp!="")
+            {
+                int key = stoi(tmp);
+                mp[key]++;
+                tmp="";
+            }
+            continue;
+        }
+        else
+        {
+            tmp +=s[i];
+        }
+    }
+    cout << mp.size();
+    vector<pair<int, int>> mpVector;
+    for(auto mpPair : mp)
+    {
+        mpVector.push_back(mpPair);
+    }
+    
+    sort(mpVector.begin(), mpVector.end(),cmp);
+  
+    for(int i=0; i<mpVector.size(); i++)
+    {
+        answer.push_back(mpVector[i].first);
+    }
+        return answer;
+}
