@@ -1,0 +1,67 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <map>
+#include <set>
+
+using namespace std;
+
+vector<int> solution(vector<string> id_list, vector<string> report, int k) {
+    vector<int> answer(id_list.size());
+    
+    map<string, set<string>> reportMap; //key : 신고한 사람, value : key값에게 신고당한 아이들 
+    map<string , int> reportCnt; // 신고당한 사람, 횟수
+    for (string s: report)
+    {
+        string tmp;//key와 value 들어갈 string
+        string reporter;
+        for(char ch : s)
+        {
+            if(ch == ' ')
+            {
+                reporter=tmp;
+                tmp="";
+                continue;
+            }
+         
+            tmp += ch;
+        }
+        
+        if(reportMap[reporter].count(tmp))
+        {
+            continue;
+        }
+        
+        reportMap[reporter].insert(tmp); 
+        reportCnt[tmp]++;
+
+
+    }
+    
+    set<string> nameList;//k번 이상 신고당한 이름 
+    
+    for(string s : id_list )
+    {
+        if(reportCnt[s] >= k)
+        {
+            nameList.insert(s);
+        }
+    }
+    
+   for (int i = 0; i < id_list.size(); i++) 
+   {
+       int cnt = 0;
+       for (auto r : reportMap[id_list[i]]) 
+       {
+           if (nameList.find(r) != nameList.end()) 
+           { 
+               cnt++; 
+           } 
+       } 
+       answer[i] = cnt; 
+   }
+    
+    return answer;
+}
+
+
