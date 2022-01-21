@@ -1,0 +1,51 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+#include <utility>
+
+using namespace std;
+
+vector<int> solution(int rows, int columns, vector<vector<int>> queries) {
+    vector<int> answer;
+    vector<vector<int>> arr(rows + 1, vector<int>(columns + 1));
+    int num = 0;
+    for (int i = 1; i <= rows; ++i)
+        for (int j = 1; j <= columns; ++j)
+            arr[i][j] = ++num;
+
+    for (auto query : queries) {
+        vector<vector<int>> arrTmp(arr);
+        int min = 10000;
+        // 왼쪽위에서 오른쪽위로
+        for (int j = query[1] + 1; j <= query[3]; ++j) {
+            arrTmp[query[0]][j] = arr[query[0]][j - 1];
+            if (min > arrTmp[query[0]][j]) min = arrTmp[query[0]][j];
+        }   
+        
+        
+        // 오른쪽위에서 오른쪽아래로
+        for (int i = query[0] + 1; i <= query[2]; ++i) {
+            arrTmp[i][query[3]] = arr[i - 1][query[3]];
+            if (min > arrTmp[i][query[3]]) min = arrTmp[i][query[3]];
+        }
+        
+        
+        // 오른쪽아래에서 왼쪽 아래로
+        for (int j = query[3] - 1; j >= query[1]; --j) {
+            arrTmp[query[2]][j] = arr[query[2]][j + 1];
+            if (min > arrTmp[query[2]][j]) min = arrTmp[query[2]][j];
+        }
+        
+        
+        //왼쪽아래에서 왼쪽 위로
+        for (int i = query[2] - 1; i >= query[0]; --i) {
+            arrTmp[i][query[1]] = arr[i + 1][query[1]];
+            if (min > arrTmp[i][query[1]]) min = arrTmp[i][query[1]];
+        }
+        arr = arrTmp;
+        answer.push_back(min);
+    }
+
+    return answer;
+}
