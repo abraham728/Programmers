@@ -1,0 +1,25 @@
+#include <string>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+vector<int> solution(vector<int> numbers) {
+    vector<int> answer;
+    //set<int, greater<int>> numSet; 내림차순 표현법
+    set<int, less<int>> numSet; //오름차순 표현법
+    for(int i=0; i<numbers.size()-1; i++) // 첫번째 INDEX
+    {
+        for(int j=i+1; j<numbers.size(); j++) // 두번째 INDEX
+        {
+            int tmp = numbers[i] + numbers[j];
+            numSet.insert(tmp);
+        }
+    }
+    
+    for(auto a : numSet) //정렬된 값 vector에 삽입
+    {
+        answer.push_back(a);
+    }
+    return answer;
+}
