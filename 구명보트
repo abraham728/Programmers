@@ -1,0 +1,29 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+int solution(vector<int> people, int limit) {
+    int boat = 0;
+    
+    sort(people.begin(), people.end()); //오름차순
+
+    int sIndex=0 , cnt=0; //시작인덱스, 탄사람수, 보트갯수
+    int eIndex =1; //끝인덱스
+    while(1)
+    {
+        int eWeight = people[people.size()-eIndex++];//가장 무거운 사람 무게 
+        cnt++;
+        if(limit-eWeight >= people[sIndex])
+        {
+            cnt++;
+            sIndex++;
+        }
+        boat++;
+        if(cnt >= people.size()) break;
+    }
+    
+    return boat;
+}
