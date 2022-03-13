@@ -1,0 +1,47 @@
+#include <string>
+#include <vector>
+#include <bitset>
+#include <iostream>
+
+using namespace std;
+
+string Binary(int num , int digit) // 십진수, 자릿수
+{
+    string s = bitset<16>(num).to_string();
+    string value = s.substr(16-digit);
+    return value; 
+}
+
+vector<string> solution(int n, vector<int> arr1, vector<int> arr2) {
+    vector<string> finalMap;
+    
+    vector<string> map1; //첫번째 map 
+    vector<string> map2; //두번째 map
+    
+    for(auto k : arr1)
+    {
+        string s = Binary(k, n);
+        map1.push_back(s);
+    }
+    
+    for(auto p : arr2)
+    {
+        string s = Binary(p, n);
+        map2.push_back(s);
+    }
+    
+    string fMapEle ="";//finalMap에 넣을 원소
+   for(int i=0; i<n; i++)
+   {   
+       for(int j=0; j<n; j++)
+       {
+           if((map1[i][j] == '1') || (map2[i][j]=='1')) // 둘중에 하나라도 벽이 있으면 
+               fMapEle.push_back('#');
+           else fMapEle.push_back(' '); //둘다 벽이 없으면
+       }
+    finalMap.push_back(fMapEle);
+    fMapEle =""; //원소초기화
+   }
+    
+    return finalMap;
+}
