@@ -1,0 +1,22 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(int n, long long left, long long right) {
+    vector<int> answer;
+    
+    long divisor=0, mod=0; //나누는 수, 나머지 
+    
+    for(long long idx =left; idx <= right; idx++)
+    {
+        divisor = idx / n;
+        mod = idx % n;
+       
+        if(mod > divisor)answer.push_back((mod+1));
+        else answer.push_back((divisor+1));
+    }
+    
+    
+    return answer;
+}
