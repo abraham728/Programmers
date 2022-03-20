@@ -1,0 +1,18 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+string solution(string s) {
+    string answer = "";
+    int mid = s.size()/2;
+    int sSize = s.size();
+    
+    if(sSize%2 == 0)//짝수여서 두개를 반환해야하는 경우 
+    {
+        answer += s[mid-1];
+        answer += s[mid];
+    }
+    else answer += s[mid];
+    return answer;
+}
