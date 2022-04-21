@@ -1,0 +1,74 @@
+#include <string>
+#include <vector>
+#include <iostream>
+#include <set>
+#include <iostream>
+
+using namespace std;
+
+vector<int> solution(int n, vector<string> words) {
+    vector<int> answer;
+    int Pson =1;
+    int turn=1;
+    char prevCh = words[0].front();
+    set<string> s;
+    bool flag = false;
+    
+    
+    for(auto word : words)
+    {
+        if(word.front() != prevCh) // 이전어의 맨끝과 현재 단어의 맨앞이 다를 경우 
+        {
+            flag = true;
+            break;
+        }
+        
+        if(word.size() == 1) // 해당단어의 크기가 1 이면 
+        {
+            flag = true;
+            break;
+        }
+        if(s.empty())
+        {
+            s.insert(word);
+            prevCh = word.back();
+            Pson++;
+            if(Pson > n)//1회전완료
+            {
+                Pson = 1;
+                turn ++;
+            }
+        }
+        else{
+             auto iter = s.find(word);
+             if(iter == s.end())//해당 단어가 없는경우 
+             {
+                s.insert(word);
+                prevCh = word.back();
+                Pson++;
+                if(Pson > n)//1회전완료
+                {
+                        Pson = 1;
+                        turn ++;
+                }
+            }
+            else //해당 단어가 나온
+            {
+                    flag = true;
+                    break; 
+            }
+        }
+    }
+  
+    if(flag)
+    {
+        answer.push_back(Pson);
+        answer.push_back(turn);
+    }
+    else 
+    {
+        answer.push_back(0);
+        answer.push_back(0);
+    }
+    return answer;
+}
