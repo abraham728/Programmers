@@ -1,0 +1,59 @@
+#include<vector>
+#include <queue>
+#include <iostream>
+#include <utility>
+
+using namespace std;
+
+int M,N; // 행, 열
+bool check[101][101]={0}; // 갔다왔는지 check하는 배열 
+int bfsMap[101][101] = {0}; //BFS진행하며 진행거리를 체크함
+
+int dx[4] = {1,0,-1,0};
+int dy[4] = {0,1,0,-1}; //아래, 오른, 위, 왼
+
+queue<pair<int, int>> q;
+int solution(vector<vector<int> > maps)
+{
+    int answer = 0;
+    
+    N = maps[0].size();
+    M = maps.size();
+    
+    //시작점 시작점 대입
+    q.push(make_pair(0,0));
+    check[0][0] = true;
+    bfsMap[0][0]=1;
+   
+    //bfs시작
+    while(!q.empty())
+    {
+        int curX = q.front().first;
+        int curY = q.front().second;
+        
+        q.pop();
+       
+        for(int i=0; i<4; i++)
+        {
+            int nx = curX + dx[i];
+            int ny = curY + dy[i];
+           
+            if(nx<0 || nx >= M || ny <0 || ny >= N) continue; // 움직일 수 있는 범위를 벗어난 경우
+            
+            if(check[nx][ny])continue; //갔다온 곳인 경우
+            
+            if( (maps[nx][ny] == 0))continue; //갈 수 있는 구역이 아닌 경우
+               
+            check[nx][ny] = true;
+            q.push(make_pair(nx,ny));
+            bfsMap[nx][ny] = bfsMap[curX][curY]+1;
+            
+        }
+    }
+    
+    if(!bfsMap[M-1][N-1]) answer = -1;
+    else  answer = bfsMap[M-1][N-1];
+    
+    return answer;
+}
+
