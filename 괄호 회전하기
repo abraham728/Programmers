@@ -1,0 +1,57 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <stack>
+using namespace std;
+
+int solution(string s) {
+    int answer = 0;
+    int rep = s.length();
+    
+    
+    while(rep>0)
+    {
+        stack<char>st;
+        bool flag = false; 
+        for(int i=0; i<s.length(); i++)
+        {
+            if(s[i]=='(' ||s[i]=='[' ||s[i]=='{')//stack에 쌓는 경우 
+            {
+                flag = true;
+                st.push(s[i]);
+            }
+            
+            else//올바른 괄호이기에 뺄 수 있는 경우
+            {
+                if(s[i]==')' && st.top() == '(') // 소괄호
+                {
+                    st.pop();
+                }
+                if(s[i]==']' && st.top() == '[') // 중괄호
+                {
+                    st.pop();
+                }
+                if(s[i]=='}' && st.top() == '{') // 대괄호
+                {
+                    st.pop();
+                }
+            }
+            
+        }
+        
+        char ch = s.front();
+        s.erase(s.begin());
+        s.push_back(ch);
+       
+        if(flag && st.empty()) answer++;
+        
+        rep--;
+        
+    }
+   
+    
+   
+   
+    
+    return answer;
+}
