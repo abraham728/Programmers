@@ -1,0 +1,69 @@
+#include <string>
+#include <vector>
+#include <climits> 
+#include <iostream>
+#include <utility>
+#include <algorithm>
+
+using namespace std;
+//교점 저장할 pair형 vector
+vector<pair<int, int>> crossP;
+
+vector<string> solution(vector<vector<int>> line) {
+    vector<string> answer;
+    
+    long long maxX = LLONG_MIN;  long long maxY = LLONG_MIN;
+    long long minX = LLONG_MAX;  long long minY = LLONG_MAX;
+    
+   for(int i=0; i<line.size(); i++)
+   {
+       //직선1
+       long long A = line[i][0];
+       long long B = line[i][1];
+       long long C = line[i][2];
+       for(int j=i+1; j<line.size(); j++)
+       {
+           //직선2
+            long long L = line[j][0];
+            long long M = line[j][1];
+            long long N = line[j][2];
+           //분모
+           long long deno = (A*M) - (B*L);
+           //분자_x좌표
+           long long moleX = (B*N)-(C*M);
+           //분자_y좌표
+           long long moleY = (C*L)-(A*N);
+           
+           //분모가 '0'인 경우, 교점이 없음
+           if(deno == 0) continue;
+           
+           //교점이 정수가 아닌 경우, 건너뜀
+           if(moleX % deno || moleY %deno)continue;
+                      
+           int X = moleX / deno;
+           int Y = moleY / deno;
+        
+           crossP.push_back(make_pair(X,Y));
+           maxX = max(maxX, (long long)X); minX = min(minX, (long long)X);
+           maxY = max(maxY, (long long)Y); minY = min(minY, (long long)Y);   
+       }
+        long long row = maxX - minX +1; //x축
+        long long col = maxY - minY +1; //y축
+           
+       string tmp(row, '.');
+       answer.assign(col, tmp);
+       
+       
+        for(int i=0;i<crossP.size();i++)
+        {
+            long long y = crossP[i].second;
+            long long x =crossP[i].first;
+            answer[maxY-y][x-minX]='*';
+        }
+       
+   }
+    
+          
+    
+    return answer;
+}
